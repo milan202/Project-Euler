@@ -31,10 +31,8 @@ def checkDivisibility(number, val):
 	i = 1;
 	factors = []
 	while(number%val == 0):
-		#print val**i;
+		#print number, val**i;
 		factors.append(val**i);
-		if number == val:
-			return (number, factors);
 		number = number / val; # Reduce the number by factor of val
 		i = i + 1;
 	return (number, factors)
@@ -69,20 +67,24 @@ def findFactors(number):
 	factors = updateFactors(factors, factor);	
 
 	# Strip all powers of subsequent primes from the number	till the number equal to the prime which divides it
-	while(number != val):
+	while(number/val != 0):
 		number, factor = checkDivisibility(number, val);
 		factors = updateFactors(factors, factor);
 		#Get Next Prime to check for and simultaneously update loop, current_index and prime_list
 		val, loop, current_index, prime_list = nextprime(loop, current_index, prime_list)
 	#Append the last factor in the factor list
-	factors.append([val])
-	print "Largest Prime: ", val;
+	#factors.append([val])
+	#print "Largest Prime:", factors[-1][0]
 	return factors;
+	
+def findLargestPrimeFactor(number):
+	return findFactors(number)[-1][0];
 
 #Run the code for number given below and print the largest factor along with the set of powers of prime factors
 #number = 18505779463480206643200; # Number to factorize
 number = long(sys.argv[1]);
-print "All powers of prime factors of ", number, " are as follows:\n", findFactors(number);
+factors = findFactors(number)
+print "All powers of prime factors of ", number, " are as follows:\n", factors, "\n\nAnd the largest prime factor is:", factors[-1][0];
 
 #Finish Profiling Printing
 print "\n\nEnd time: ", str(datetime.datetime.now());
